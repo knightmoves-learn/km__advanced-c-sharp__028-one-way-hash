@@ -43,7 +43,7 @@ namespace HomeEnergyApi.Controllers
             var existingUser = userRepository.FindByUsername(userDto.Username);
             if (existingUser != null)
             {
-                BadRequest("Username is already taken.");
+                BadRequest("Username is already taken");
             }
 
             var user = mapper.Map<User>(userDto);
