@@ -1,11 +1,9 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using HomeEnergyApi.Dtos;
-using HomeEnergyApi.Models;
 
 
 namespace HomeEnergyApi.Controllers
@@ -17,62 +15,36 @@ namespace HomeEnergyApi.Controllers
         private readonly string _issuer;
         private readonly string _audience;
         private readonly string _secret;
-        private readonly IUserRepository userRepository;
-        private readonly ValueHasher passwordHasher;
-        private readonly IMapper mapper;
 
-        public AuthenticationController(IConfiguration configuration,
-                                        IUserRepository userRepository,
-                                        ValueHasher passwordHasher,
-                                        IMapper mapper)
+        public AuthenticationController(IConfiguration configuration)
         {
             _issuer = configuration["Jwt:Issuer"];
             _audience = configuration["Jwt:Audience"];
             _secret = configuration["Jwt:Secret"];
-            this.userRepository = userRepository;
-            this.passwordHasher = passwordHasher;
-            this.mapper = mapper;
-        }
-
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserDto userDto)
-        {
-            var existingUser = userRepository.FindByUsername(userDto.Username);
-            if (existingUser != null)
-            {
-                return BadRequest("Username is already taken.");
-            }
-
-            var user = mapper.Map<User>(userDto);
-            user.HashedPassword = passwordHasher.HashPassword(userDto.Password);
-
-            userRepository.Save(user);
-            return Ok("User registered successfully.");
         }
 
         [HttpPost("token")]
-        public IActionResult Token([FromBody] UserDto userDto)
+        public IActionResult Token([FromBody] TokenDto tokenDto)
         {
-            var user = userRepository.FindByUsername(userDto.Username);
-            if (user == null || !passwordHasher.VerifyPassword(user.HashedPassword, userDto.Password))
+            if (string.IsNullOrEmpty(tokenDto.Role))
             {
-                return Unauthorized("Invalid username or password.");
+                return BadRequest("Role is required.");
             }
 
-            string token = GenerateJwtToken(user);
+            string token = GenerateJwtToken(tokenDto.Role);
             return Ok(new { token });
         }
 
-        private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(string role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+            new Claim(JwtRegisteredClaimNames.Sub, "maria@knightmove.org"),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, role)
         };
 
             var token = new JwtSecurityToken(

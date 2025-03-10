@@ -78,29 +78,6 @@ namespace HomeEnergyApi.Migrations
                     b.ToTable("HomeUtilityProviders");
                 });
 
-            modelBuilder.Entity("HomeEnergyApi.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("HashedPassword")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("HomeEnergyApi.Models.UtilityProvider", b =>
                 {
                     b.Property<int>("Id")
