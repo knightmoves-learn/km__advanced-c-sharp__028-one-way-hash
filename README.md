@@ -1,8 +1,9 @@
-# 025 Role Based Authentication
+# 029 One Way Hash
 
 ## Lecture
 
-[![# Role Based Authentication](https://img.youtube.com/vi/RTUTtORZ8nM/0.jpg)](https://www.youtube.com/watch?v=RTUTtORZ8nM)
+[![# 029 One Way Hash (Part 1)](https://img.youtube.com/vi/DO9hXqw6-aE/0.jpg)](https://www.youtube.com/watch?v=DO9hXqw6-aE)
+[![# 029 One Way Hash (Part 2)](https://img.youtube.com/vi/e5efk-3kt0o/0.jpg)](https://www.youtube.com/watch?v=e5efk-3kt0o)
 
 ## Instructions
 
