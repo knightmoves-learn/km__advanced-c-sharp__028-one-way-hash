@@ -117,11 +117,27 @@ public class FileTests
             "HomeEnergyApi/Dtos/HomeDto.cs does not contain the attribute '[HomeStreetAddressValid]'");
     }
 
-        [Fact]
+    [Fact]
     public void DoesProgramAddControllerOptionToAddGlobalExceptionFilter()
     {
         bool containsOptionAddingGlobalExceptionFilter = programContent.Contains("options.Filters.Add<GlobalExceptionFilter>();");
         Assert.True(containsOptionAddingGlobalExceptionFilter,
             "HomeEnergyApi/Program.cs does not add a controller option adding 'GlobalExceptionFilter' as a filter");
+    }
+
+    [Fact]
+    public void DoesProgramAddScopedUserRepository()
+    {
+        bool containsScopedUserRepostory = programContent.Contains("builder.Services.AddScoped<IUserRepository, UserRepository>();");
+        Assert.True(containsScopedUserRepostory,
+            "HomeEnergyApi/Program.cs does not add a scoped service with types 'IUserRepository' and 'UserRepository'");
+    }
+
+    [Fact]
+    public void DoesProgramAddSingletonValueHasher()
+    {
+        bool containsSingletonValueHasher = programContent.Contains("builder.Services.AddSingleton<ValueHasher>();");
+        Assert.True(containsSingletonValueHasher,
+            "HomeEnergyApi/Program.cs does not add a value hasher singleton service");
     }
 }

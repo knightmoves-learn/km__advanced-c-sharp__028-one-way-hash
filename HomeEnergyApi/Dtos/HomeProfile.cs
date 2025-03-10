@@ -14,9 +14,7 @@ namespace HomeEnergyApi.Dtos
                                                      : null));
             
             CreateMap<UtilityProviderDto, UtilityProvider>();
-                // .ForMember(dest => dest.ProvidedUtilities,
-                //            opt => opt.MapFrom(src => src.ProvidedUtilities != null
-                //                                      ? src.ProvidedUtilities));
+            CreateMap<UserDto, User>();
         }
     }
 }
