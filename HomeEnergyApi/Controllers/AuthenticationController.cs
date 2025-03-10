@@ -41,7 +41,7 @@ namespace HomeEnergyApi.Controllers
         public async Task<IActionResult> Register([FromBody] UserDto userDto)
         {
             var existingUser = userRepository.FindByUsername(userDto.Username);
-            if (existingUser != null)
+            if (existingUser == null)
             {
                 BadRequest("Username is already taken");
             }
